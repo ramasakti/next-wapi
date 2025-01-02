@@ -1,6 +1,12 @@
 import React from "react";
 import Script from "next/script"
-import AuthProvider from "@/app/AuthProvider"
+import AuthProvider from "./AuthProvider"
+import '@/public/tabler/css/tabler.min.css'
+import '@/public/tabler/css/tabler-flags.min.css'
+import '@/public/tabler/css/tabler-payments.min.css'
+import '@/public/tabler/css/tabler-vendors.min.css'
+import '@/public/tabler/css/demo.min.css'
+import '@/public/styles/globals.css';
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ["latin"] });

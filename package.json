@@ -9,8 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/core": "1.0.0-beta21",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.7",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "module-alias": "^2.2.3",
+    "mysql2": "^3.12.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "nodemon": "^3.1.7",
@@ -18,6 +24,7 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-qr-code": "^2.0.15",
-    "whatsapp-web.js": "^1.25.0"
+    "whatsapp-web.js": "^1.25.0",
+    "wwebjs-mysql": "^0.1.4"
   }
 }

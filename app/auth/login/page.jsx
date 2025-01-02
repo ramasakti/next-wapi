@@ -5,9 +5,9 @@ import Link from "next/link";
 import AuthProvider from "@/app/AuthProvider";
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/navigation';
-import SuccessAlert from "../../components/SuccessAlert";
-import InvalidAlert from "../../components/InvalidAlert";
-import { fetcher } from "../../components/FetchUtils";
+import SuccessAlert from "../../../components/SuccessAlert";
+import InvalidAlert from "../../../components/InvalidAlert";
+import { fetcher } from "../../../components/FetchUtils";
 
 export default function SignIn() {
     const router = useRouter();

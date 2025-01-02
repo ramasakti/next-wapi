@@ -1,0 +1,44 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+h2#swal2-title {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.navbar-nav li.active {
+  background-color: #e9f0f9;
+}
+:root {
+  --tblr-font-sans-serif: 'Inter';
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.chat-bubble-me {
+  background-color: var(--tblr-primary-lt);
+  box-shadow: none;
+}
+
+.chat-bubble {
+  background: var(--tblr-bg-surface-secondary);
+  border-radius: var(--tblr-border-radius-lg);
+  padding: 1rem;
+  position: relative;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999; /* Pastikan nilai z-index memadai */
+  /* Tambahkan gaya lain yang diinginkan */
+}

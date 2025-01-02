@@ -9,20 +9,20 @@ export default function SuccessForgot() {
     return (
         <>
             <AuthProvider>
-                <div class="page page-center">
-                    <div class="container container-tight py-4">
-                        <div class="text-center mb-4">
-                            <Link href="/" class="navbar-brand navbar-brand-autodark"><img src="/logo.svg" height="36" alt=""/></Link>
+                <div className="page page-center">
+                    <div className="container container-tight py-4">
+                        <div className="text-center mb-4">
+                            <Link href="/" className="navbar-brand navbar-brand-autodark"><img src="/logo.svg" height="36" alt=""/></Link>
                         </div>
-                        <div class="text-center">
-                            <div class="my-5">
-                                <h2 class="h1">Periksa kotak masuk email anda</h2>
-                                <p class="fs-h3 text-muted">
+                        <div className="text-center">
+                            <div className="my-5">
+                                <h2 className="h1">Periksa kotak masuk email anda</h2>
+                                <p className="fs-h3 text-muted">
                                     Kami telah mengirim email berisi kredensial untuk login pada aplikasi Ispagram ke <strong>{email}</strong>.<br />
                                     Mohon ikuti petunjuk yang ada pada email tersebut.
                                 </p>
                             </div>
-                            <div class="text-center text-muted mt-3">
+                            <div className="text-center text-muted mt-3">
                                 Tidak mendapati pesan email? Periksa pada folder spam.<br />
                                 Salah email? Mohon <Link href="/auth/forgot/process">entri ulang email anda</Link>.
                             </div>

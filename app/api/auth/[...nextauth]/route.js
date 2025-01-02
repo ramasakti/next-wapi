@@ -1,73 +1,81 @@
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
-import { fetcher } from "../../../components/FetchUtils"
+import NextAuth from "next-auth/next"
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { fetcher } from '@/components/FetchUtils';
+import jwt from 'jsonwebtoken';
 
-export default withAuth(
-    async function middleware(req) {
-        const pathname = req.nextUrl.pathname
-        const userRole = req.nextauth.token.user.id_role
+const authOption = {
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }),
+        CredentialsProvider({
+            name: "credentials",
+            credentials: {
+                username: {
+                    label: "Username",
+                    type: "text",
+                    placeholder: "Enter Your Email"
+                },
+                password: {
+                    label: "Password",
+                    type: "password",
+                    placeholder: "Enter Your Password"
+                }
+            },
+            async authorize(credentials) {
+                try {
+                    const data = await fetcher(`/auth`, {
+                        method: 'POST',
+                        body: JSON.stringify(credentials)
+                    });
 
-        function isUrlInMenu(url, sections) {
-            if (
-                url.endsWith('/sekolah/jampel/generate') ||
-                url.endsWith('/siswa/keuangan/transaksi/checkout') ||
-                url.endsWith('/akun') ||
-                url.endsWith('/biodata') ||
-                url.includes('/web/access/') ||
-                url.includes('/siswa/keuangan/transaksi/') ||
-                url.includes('/app/quran') ||
-                url.startsWith('/dashboard/app') ||
-                url.includes('/blog/create') ||
-                url.includes('/web/blog/edit/') ||
-                url.includes('/alumni/transaksi/')
-            ) return true
-
-            for (const section of sections) {
-                for (const menu of section.menu) {
-                    if (!menu.route) {
-                        for (const submenu of menu.submenu) {
-                            if (submenu.submenu_route === url) {
-                                return true;
-                            }
-                        }
-                    } else {
-                        if (menu.route === url) {
-                            return true;
-                        }
+                    if (!data || !data.payload.user || data.payload.user.role !== 'Admin') {
+                        throw new Error("Unauthorized");
                     }
+
+                    return {
+                        ...data.payload.user,
+                        token: data.payload.token,
+                    };
+                } catch (error) {
+                    console.error("Authorize error:", error.message);
+                    return null;
                 }
             }
-            return false;
-        }
-
-        const menu = await fetcher(`/navbar/${userRole}`)
-        
-        const isUrlFoundInMenu = isUrlInMenu(pathname, menu.payload)
-
-        if (!isUrlFoundInMenu) {
-            return NextResponse.rewrite(
-                new URL('/auth/notauthorized', req.url)
-            )
-        }
+        })
+    ],
+    pages: {
+        signIn: '/auth/login'
     },
-    {
-        callbacks: {
-            authorized: ({ token }) => !!token
-        }
-    }
-)
+    session: {
+        maxAge: 3600, // Session expiry (1 hour)
+    },
+    callbacks: {
+        async session({ session, token }) {
+            session.user = token.user || null; // Assign user data from token to session
+            return session;
+        },
+        async jwt({ token, user, account }) {
+            if (account?.provider === "google") {
+                // For Google login, directly assign the user data                
+                if (user) {
+                    token.user = {
+                        ...user,
+                        role: "User", // Assign role 'user' for Google accounts
+                        token: jwt.sign({ userId: user }, 'parlaungan1980', { expiresIn: '1h' })
+                    };
+                }
+            } else if (user) {
+                // For Credentials login, use the user data returned by authorize
+                token.user = user;
+            }
+            return token;
+        },
+    },
+};
 
-export const config = {
-    matcher: [
-        '/dashboard/:path*',
-        '/kesiswaan/:path*',
-        '/kurikulum/:path*',
-        '/bendahara/:path*',
-        '/guru/:path*',
-        '/piket/:path*',
-        '/walas/:path*',
-        '/siswa/:path*',
-        '/akun/:path*',
-        '/biodata/:path*'
-    ]
-}
+const handler = NextAuth(authOption)
+
+export { authOption, handler as GET, handler as POST } 
