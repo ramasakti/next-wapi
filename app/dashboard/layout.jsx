@@ -16,7 +16,7 @@ export default async function Layout({ children }) {
     }
 
     // Fetch data navbar menggunakan id_role dari session user
-    const dataNavbar = await fetcher(`/navbar/${session.user.id_role}`, {
+    const dataNavbar = await fetcher(`/api/navbar/${session.user.id_role}`, {
         method: 'GET',
         token: session?.user?.token
     });

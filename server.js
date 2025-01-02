@@ -212,7 +212,7 @@ app.prepare().then(async () => {
         }
     });
 
-    server.post('/auth', async (req, res) => {
+    server.post('/api/auth', async (req, res) => {
         try {
             const { username, password } = req.body
             let token, user = ''
@@ -235,7 +235,7 @@ app.prepare().then(async () => {
         }
     })
 
-    server.get('/navbar/:id_role', async (req, res) => {
+    server.get('/api/navbar/:id_role', async (req, res) => {
         try {
             let users = ''
 

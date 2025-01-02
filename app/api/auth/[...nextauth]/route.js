@@ -26,7 +26,7 @@ const authOption = {
             },
             async authorize(credentials) {
                 try {
-                    const data = await fetcher(`/auth`, {
+                    const data = await fetcher(`/api/auth`, {
                         method: 'POST',
                         body: JSON.stringify(credentials)
                     });
